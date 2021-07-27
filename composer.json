@@ -12,6 +12,10 @@
     "require": {
         "php": ">=7.0"
     },
+    "suggest": {
+        "ext-gmp": "Required to use gmp_add",
+        "ext-bcmath": "Required to use bcadd"
+    },
     "autoload": {
         "psr-4": {
             "Luffy\\": "src"
