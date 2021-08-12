@@ -47,7 +47,9 @@ class AlphaID
         }
 
         if (strlen($this->_alphabet) < self::MIN_ALPHABET_LENGTH) {
-            throw new InvalidArgumentException(sprintf('alphabet must contain at least %d unique characters', self::MIN_ALPHABET_LENGTH));
+            throw new InvalidArgumentException(
+                sprintf('alphabet must contain at least %d unique characters', self::MIN_ALPHABET_LENGTH)
+            );
         }
 
         if (is_int(strpos($this->_alphabet, ' '))) {
