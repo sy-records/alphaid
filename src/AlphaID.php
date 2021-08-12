@@ -2,6 +2,7 @@
 
 namespace Luffy;
 
+use Luffy\Exception\DecodeException;
 use Luffy\Exception\InvalidArgumentException;
 
 class AlphaID
@@ -88,6 +89,10 @@ class AlphaID
         }
     }
 
+    /**
+     * @param string|array ...$numbers
+     * @return false|mixed|string
+     */
     public function encode(...$numbers)
     {
         $ret = '';
@@ -113,13 +118,17 @@ class AlphaID
 
     public function decode($hash)
     {
-        $ret = [];
+        try {
+            $ret = [];
 
-        if (!is_string($hash) || !($hash = trim($hash))) {
-            return $ret;
+            if (!is_string($hash) || !($hash = trim($hash))) {
+                return $ret;
+            }
+
+            return $this->_decode($hash, $this->_alphabet);
+        } catch (\Throwable $e) {
+            throw new DecodeException("Cannot decode `{$hash}`");
         }
-
-        return $this->_decode($hash, $this->_alphabet);
     }
 
     public function encode_hex($str)
@@ -142,6 +151,10 @@ class AlphaID
     {
         $ret = '';
         $numbers = $this->decode($hash);
+
+        if (!is_array($numbers)) {
+            $numbers = [$numbers];
+        }
 
         foreach ($numbers as $i => $number) {
             $ret .= substr(dechex($number), 1);
