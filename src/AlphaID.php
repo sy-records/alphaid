@@ -5,6 +5,7 @@ namespace Luffy;
 use Luffy\Exception\DecodeException;
 use Luffy\Exception\InvalidArgumentException;
 
+#[\AllowDynamicProperties]
 class AlphaID
 {
     const MIN_ALPHABET_LENGTH = 16;
@@ -216,7 +217,7 @@ class AlphaID
 
             $excess = strlen($ret) - $this->_min_hash_length;
             if ($excess > 0) {
-                $ret = substr($ret, $excess / 2, $this->_min_hash_length);
+                $ret = substr($ret, (int)($excess / 2), $this->_min_hash_length);
             }
         }
 
